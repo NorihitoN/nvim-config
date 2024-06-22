@@ -30,7 +30,7 @@ vim.opt.list               = true
 vim.opt.listchars:append "space:⋅"
 vim.opt.listchars:append "eol:↴"
 vim.opt.foldmethod = 'expr'
--- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 
 vim.opt.completeopt = { 'menuone', 'noselect', 'noinsert' }
