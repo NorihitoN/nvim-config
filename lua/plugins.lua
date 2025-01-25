@@ -175,6 +175,15 @@ return {
                     changedelete = { text = '~' },
                     untracked    = { text = '┆' },
                 },
+                signs_start = {
+                    add          = { text = '│' },
+                    change       = { text = '│' },
+                    delete       = { text = '_' },
+                    topdelete    = { text = '‾' },
+                    changedelete = { text = '~' },
+                    untracked    = { text = '┆' },
+                },
+                signs_staged_enable = true,
                 signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
                 numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
             })
