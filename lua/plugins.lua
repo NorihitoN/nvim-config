@@ -2,9 +2,15 @@ return {
     { -- colorscheme
         "EdenEast/nightfox.nvim",
         config = function()
+            require("nightfox").setup({
+                options = {
+                    transparent = true,
+                },
+            })
             vim.cmd("colorscheme nightfox")
         end
     },
+    { "xiyaowong/transparent.nvim"},
     {
         'romgrk/barbar.nvim',
         dependencies = {
@@ -149,13 +155,34 @@ return {
         version = '*',
         config = function()
             require("toggleterm").setup({
-                size = 100,
-                direction = "vertical",
+                direction = "float",
                 open_mapping = [[<C-t>]],
                 close_on_exit = true,
                 insert_mapping = true,
                 terminal_mapping = true,
-                stert_in_insert = false,
+                start_in_insert = false,
+            })
+
+            function _G.set_terminal_keymaps()
+                local opts = { buffer = 0 }
+                vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', opts)
+                vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+            end
+
+             vim.cmd([[
+                    autocmd! TermOpen term://* lua set_terminal_keymaps()
+            ]])
+
+            -- **TermOpen のたびに透明化を適用**
+            vim.api.nvim_create_autocmd("TermOpen", {
+                pattern = "term://*",
+                callback = function()
+                    vim.cmd("startinsert")  -- 開いた直後に挿入モードで開始
+                    -- ターミナルの背景を透明にする
+                    vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+                    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+                    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE" })
+                end,
             })
         end
     },
@@ -175,7 +202,7 @@ return {
                     changedelete = { text = '~' },
                     untracked    = { text = '┆' },
                 },
-                signs_start = {
+                signs_staged = {
                     add          = { text = '│' },
                     change       = { text = '│' },
                     delete       = { text = '_' },
@@ -189,6 +216,7 @@ return {
             })
         end
     },
+    { "sindrets/diffview.nvim" },
     -- LSP
     { "neoclide/coc.nvim",      branch = 'release' },
     -- Treesitter
@@ -199,6 +227,29 @@ return {
         end,
     },
     { "github/copilot.vim" },
+    { "CopilotC-Nvim/CopilotChat.nvim",
+        dependencies = {
+          { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+          { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+        },
+        build = "make tiktoken", -- Only on MacOS or Linux
+        opts = {
+          -- See Configuration section for options
+        },
+        -- See Commands section for default commands if you want to lazy load on them
+      },
     { "chrisbra/csv.vim" },
-    { "puremourning/vimspector" }
+    { "puremourning/vimspector" },
+    { "vimwiki/vimwiki",
+        init = function()
+            vim.g.vimwiki_list = {
+                {
+                  path = os.getenv("HOME") .. "/Library/Mobile Documents/com~apple~CloudDocs/vimwiki/",
+                  syntax = "markdown",
+                  ext = "md",
+                }
+            }
+            vim.g.vimwiki_global_ext = 0
+        end
+    }
 }
