@@ -68,3 +68,4 @@ vim.cmd([[
 vim.keymap.set('n', '<Leader>gs', '<cmd>call vimspector#Launch()<cr>')
 vim.keymap.set('n', "<C-CR>", "<Plug>VimspectorBalloonEval")
 
+vim.env.LANG = "en_US.UTF-8"
