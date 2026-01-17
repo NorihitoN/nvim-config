@@ -10,7 +10,7 @@ return {
             vim.cmd("colorscheme nightfox")
         end
     },
-    { "xiyaowong/transparent.nvim"},
+    { "xiyaowong/transparent.nvim" },
     {
         'romgrk/barbar.nvim',
         dependencies = {
@@ -20,7 +20,7 @@ return {
         init = function() vim.g.barbar_auto_setup = false end,
         opts = {},
     },
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl",                               opts = {},    version = "3.5.4" },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {}, version = "3.5.4" },
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' }
@@ -34,10 +34,10 @@ return {
         end
     },
     { 'brenoprata10/nvim-highlight-colors' },
-    { 'numToStr/Comment.nvim',               opts = {},                                  lazy = false, },
-    { "folke/todo-comments.nvim",            dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
-    { 'fedepujol/move.nvim',                 opts = {} },
-    { 'phaazon/hop.nvim',                    opts = {} },
+    { 'numToStr/Comment.nvim',             opts = {},                                  lazy = false, },
+    { "folke/todo-comments.nvim",          dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
+    { 'fedepujol/move.nvim',               opts = {} },
+    { 'phaazon/hop.nvim',                  opts = {} },
     -- {
     --     'kevinhwang91/nvim-hlslens',
     --     config = function()
@@ -169,7 +169,7 @@ return {
                 vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
             end
 
-             vim.cmd([[
+            vim.cmd([[
                     autocmd! TermOpen term://* lua set_terminal_keymaps()
             ]])
 
@@ -177,7 +177,7 @@ return {
             vim.api.nvim_create_autocmd("TermOpen", {
                 pattern = "term://*",
                 callback = function()
-                    vim.cmd("startinsert")  -- 開いた直後に挿入モードで開始
+                    vim.cmd("startinsert") -- 開いた直後に挿入モードで開始
                     -- ターミナルの背景を透明にする
                     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
                     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
@@ -194,7 +194,7 @@ return {
         "lewis6991/gitsigns.nvim",
         config = function()
             require("gitsigns").setup({
-                signs      = {
+                signs               = {
                     add          = { text = '│' },
                     change       = { text = '│' },
                     delete       = { text = '_' },
@@ -202,7 +202,7 @@ return {
                     changedelete = { text = '~' },
                     untracked    = { text = '┆' },
                 },
-                signs_staged = {
+                signs_staged        = {
                     add          = { text = '│' },
                     change       = { text = '│' },
                     delete       = { text = '_' },
@@ -211,8 +211,8 @@ return {
                     untracked    = { text = '┆' },
                 },
                 signs_staged_enable = true,
-                signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-                numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
+                signcolumn          = true, -- Toggle with `:Gitsigns toggle_signs`
+                numhl               = true, -- Toggle with `:Gitsigns toggle_numhl`
             })
         end
     },
@@ -238,7 +238,56 @@ return {
     },
     { "sindrets/diffview.nvim" },
     -- LSP
-    { "neoclide/coc.nvim",      branch = 'release' },
+    -- { "neoclide/coc.nvim",      branch = 'release' },
+    {
+        "williamboman/mason.nvim",
+        config = function()
+            require("mason").setup()
+        end,
+    },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        dependencies = { "williamboman/mason.nvim" },
+        config = function()
+            require("mason-lspconfig").setup({
+                ensure_installed = {
+                    -- languages you listed:
+                    "hls",           -- Haskell
+                    "pyright",       -- Python
+                    "ts_ls",      -- TypeScript/JavaScript
+                    "rust_analyzer", -- Rust
+                    "clangd",        -- C/C++
+                    "metals",        -- Scala
+                    "elixirls",      -- Elixir
+                    "lua_ls",        -- Lua
+                    "scheme_langserver", -- Scheme
+                },
+            })
+        end,
+    },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            "williamboman/mason-lspconfig.nvim",
+        },
+    },
+
+    -- completion (nvim-cmp)
+    {
+        "hrsh7th/nvim-cmp",
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",
+            "L3MON4D3/LuaSnip",
+            "saadparwaiz1/cmp_luasnip",
+        },
+    },
+    -- Lua development
+    { "folke/neodev.nvim", opts = {},
+        config = function()
+            require("neodev").setup()
+        end
+    },
+
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
@@ -248,26 +297,28 @@ return {
     },
     { "nvim-treesitter/nvim-treesitter-context" },
     { "github/copilot.vim" },
-    { "CopilotC-Nvim/CopilotChat.nvim",
+    {
+        "CopilotC-Nvim/CopilotChat.nvim",
         dependencies = {
-          { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-          { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+            { "github/copilot.vim" },                       -- or zbirenbaum/copilot.lua
+            { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
         },
-        build = "make tiktoken", -- Only on MacOS or Linux
+        build = "make tiktoken",                            -- Only on MacOS or Linux
         opts = {
-          -- See Configuration section for options
+            -- See Configuration section for options
         },
         -- See Commands section for default commands if you want to lazy load on them
-      },
+    },
     { "chrisbra/csv.vim" },
     { "puremourning/vimspector" },
-    { "vimwiki/vimwiki",
+    {
+        "vimwiki/vimwiki",
         init = function()
             vim.g.vimwiki_list = {
                 {
-                  path = os.getenv("HOME") .. "/Library/Mobile Documents/com~apple~CloudDocs/vimwiki/",
-                  syntax = "markdown",
-                  ext = "md",
+                    path = os.getenv("HOME") .. "/Library/Mobile Documents/com~apple~CloudDocs/vimwiki/",
+                    syntax = "markdown",
+                    ext = "md",
                 }
             }
             vim.g.vimwiki_global_ext = 0

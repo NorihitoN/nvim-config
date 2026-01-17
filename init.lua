@@ -21,7 +21,9 @@ require("lazy").setup({
 
 require('options')
 require('keymaps')
-require('coc')
+-- require('coc')
+require('lsp')
+require('completion')
 
 local status, telescope = pcall(require, "telescope")
 if (not status) then return end
