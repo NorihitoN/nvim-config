@@ -35,3 +35,11 @@ cmp.setup({
         { name = "luasnip" },
     }),
 })
+
+-- nvim-cmp と autopairs の連携（←ここを追加）
+local ok_ap, npairs = pcall(require, "nvim-autopairs")
+if ok_ap then
+  local cmp_ap = require("nvim-autopairs.completion.cmp")
+  cmp.event:on("confirm_done", cmp_ap.on_confirm_done())
+end
+

@@ -281,12 +281,38 @@ return {
             "saadparwaiz1/cmp_luasnip",
         },
     },
+    {
+  "stevearc/conform.nvim",
+  lazy = false,
+  config = function()
+    require("conform").setup({
+      formatters_by_ft = {
+        lua = { "stylua" },
+        haskell = { "ormolu" },
+      },
+      format_on_save = false,
+    })
+  end,
+},
     -- Lua development
     { "folke/neodev.nvim", opts = {},
         config = function()
             require("neodev").setup()
         end
     },
+    -- Auto close
+    {
+        "windwp/nvim-autopairs",
+      event = "InsertEnter",
+      config = function()
+        local npairs = require("nvim-autopairs")
+        npairs.setup({
+          check_ts = true,
+          disable_filetype = { "TelescopePrompt", "vim" },
+          fast_wrap = {},
+        })
+  end,
+},
 
     -- Treesitter
     {
