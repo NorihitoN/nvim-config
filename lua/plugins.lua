@@ -317,9 +317,38 @@ return {
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
-        build = function()
-            require("nvim-treesitter.install").update({ with_sync = true })()
+        build = ":TSUpdate",
+        config = function(_, opts)
+            require("nvim-treesitter.configs").setup(opts)
         end,
+        opts = {
+            ensure_installed = {
+                "haskell",
+                "python",
+                "javascript",
+                "typescript",
+                "rust",
+                "c",
+                "cpp",
+                "scala",
+                "elixir",
+                "lua",
+                "scheme",
+                "json",
+                "html",
+                "css",
+                "bash",
+                "yaml",
+                "toml",
+            },
+            auto_install = true,
+            highlight = {
+                enable = true,
+            },
+            indent = {
+                enable = true,
+            }
+        }
     },
     { "nvim-treesitter/nvim-treesitter-context" },
     { "github/copilot.vim" },
