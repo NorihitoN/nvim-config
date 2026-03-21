@@ -38,7 +38,12 @@ vim.diagnostic.config({
 local ok_mlsp, mlsp = pcall(require, "mason-lspconfig")
 
 local function default_setup(server_name)
-  lspconfig[server_name].setup({
+  local server = lspconfig[server_name]
+  if not server then
+    vim.notify(("lspconfig: unknown server '%s' (skip)"):format(server_name), vim.log.levels.WARN)
+    return
+  end
+  server.setup({
     on_attach = on_attach,
     capabilities = capabilities,
   })

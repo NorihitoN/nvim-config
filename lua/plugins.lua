@@ -254,13 +254,13 @@ return {
                     -- languages you listed:
                     "hls",           -- Haskell
                     "pyright",       -- Python
-                    "ts_ls",      -- TypeScript/JavaScript
+                    -- "ts_ls",      -- TypeScript/JavaScript
                     "rust_analyzer", -- Rust
-                    "clangd",        -- C/C++
-                    "metals",        -- Scala
-                    "elixirls",      -- Elixir
-                    "lua_ls",        -- Lua
-                    "scheme_langserver", -- Scheme
+                    -- "clangd",        -- C/C++
+                    -- "metals",        -- Scala
+                    -- "elixirls",      -- Elixir
+                    -- "lua_ls",        -- Lua
+                    -- "scheme_langserver", -- Scheme
                 },
             })
         end,
