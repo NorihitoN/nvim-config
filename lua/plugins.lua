@@ -20,7 +20,34 @@ return {
         init = function() vim.g.barbar_auto_setup = false end,
         opts = {},
     },
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {}, version = "3.5.4" },
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        config = function(_, opts)
+            -- Fix: vim.tbl_flatten deprecated in Nvim 0.12
+            local utils = require("ibl.utils")
+            utils.tbl_join = function(...)
+                local result = {}
+                for i, v in ipairs(vim.iter({ ... }):flatten():totable()) do
+                    result[i] = v
+                end
+                return result
+            end
+            -- Fix: vim.validate{table} deprecated in Nvim 0.12
+            utils.validate = function(opt, input, path)
+                for k, v in pairs(opt) do
+                    vim.validate(k, v[1], v[2], v[3])
+                end
+                for key, _ in pairs(input) do
+                    if not opt[key] then
+                        error(string.format("'%s' is not a valid key of %s", key, path))
+                    end
+                end
+            end
+            require("ibl").setup(opts)
+        end,
+        opts = {},
+    },
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' }
@@ -251,8 +278,7 @@ return {
         config = function()
             require("mason-lspconfig").setup({
                 ensure_installed = {
-                    -- languages you listed:
-                    "hls",           -- Haskell
+                    -- hls は ghcup で管理するため Mason には含めない
                     "pyright",       -- Python
                     -- "ts_ls",      -- TypeScript/JavaScript
                     "rust_analyzer", -- Rust
@@ -262,6 +288,7 @@ return {
                     -- "lua_ls",        -- Lua
                     -- "scheme_langserver", -- Scheme
                 },
+                automatic_enable = false,
             })
         end,
     },

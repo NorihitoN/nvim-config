@@ -64,11 +64,6 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
-vim.lsp.config("scheme_langserver", {
-	cmd = { "scheme-langserver" },
-	filetypes = { "scheme" },
-})
-
 -- mason-lspconfig の automatic_enable に任せず明示的に有効化
 -- (ensure_installed 以外のサーバーも含む)
-vim.lsp.enable({ "hls", "pyright", "rust_analyzer", "lua_ls", "scheme_langserver" })
+vim.lsp.enable({ "hls", "pyright", "rust_analyzer", "lua_ls" })
