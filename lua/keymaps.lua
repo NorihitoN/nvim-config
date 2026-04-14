@@ -41,3 +41,11 @@ keymap.set('', '<leader>h', '<C-w>h')
 keymap.set('', '<leader>k', '<C-w>k')
 keymap.set('', '<leader>j', '<C-w>j')
 keymap.set('', '<leader>l', '<C-w>l')
+
+-- LSP
+keymap.set('n', '<leader>lr', function()
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+        client:stop()
+    end
+    vim.cmd('e')
+end, { noremap = true, silent = true, desc = "LSP: Restart" })
