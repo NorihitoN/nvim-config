@@ -17,7 +17,13 @@ cmp.setup({
             elseif luasnip.expand_or_jumpable() then
                 luasnip.expand_or_jump()
             else
-                fallback()
+                -- Copilot のインライン補完を Tab で受け入れる
+                local copilot_keys = vim.fn["copilot#Accept"]("")
+                if copilot_keys ~= "" then
+                    vim.api.nvim_feedkeys(copilot_keys, "i", true)
+                else
+                    fallback()
+                end
             end
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
@@ -34,6 +40,21 @@ cmp.setup({
         { name = "nvim_lsp" },
         { name = "luasnip" },
     }),
+})
+
+-- vimwiki の Tab マッピングを無効化（Copilot Tab を優先するため）
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "vimwiki", "markdown" },
+    callback = function()
+        vim.keymap.set("i", "<Tab>", function()
+            local copilot_keys = vim.fn["copilot#Accept"]("")
+            if copilot_keys ~= "" then
+                vim.api.nvim_feedkeys(copilot_keys, "i", true)
+            else
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+            end
+        end, { buffer = true, silent = true })
+    end,
 })
 
 -- nvim-cmp と autopairs の連携（←ここを追加）

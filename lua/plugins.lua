@@ -356,7 +356,12 @@ return {
         }
     },
     { "nvim-treesitter/nvim-treesitter-context" },
-    { "github/copilot.vim" },
+    {
+        "github/copilot.vim",
+        init = function()
+            vim.g.copilot_no_tab_map = true
+        end,
+    },
     {
         "CopilotC-Nvim/CopilotChat.nvim",
         dependencies = {
@@ -391,6 +396,7 @@ return {
                 }
             }
             vim.g.vimwiki_global_ext = 0
+            vim.g.vimwiki_key_mappings = { lists = 0 }
         end
     }
 }
