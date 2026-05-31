@@ -41,7 +41,15 @@ return {
     { 'numToStr/Comment.nvim',             opts = {},                                  lazy = false, },
     { "folke/todo-comments.nvim",          dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
     { 'fedepujol/move.nvim',               opts = {} },
-    { 'phaazon/hop.nvim',                  opts = {} },
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        opts = {},
+        keys = {
+            { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+            { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+        },
+    },
     -- {
     --     'kevinhwang91/nvim-hlslens',
     --     config = function()
@@ -293,6 +301,7 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         haskell = { "ormolu" },
+        python = { "ruff_format" },
       },
       format_on_save = false,
     })
@@ -376,13 +385,11 @@ return {
     },
     { "chrisbra/csv.vim" },
     { "puremourning/vimspector" },
+    { "selimacerbas/live-server.nvim" },
     {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        build = "cd app && npm install --legacy-peer-deps && git checkout yarn.lock",
-        init = function()
-            vim.g.mkdp_filetypes = { "markdown" }
-        end,
+        "selimacerbas/markdown-preview.nvim",
+        cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewRefresh" },
+        dependencies = { "selimacerbas/live-server.nvim" },
         ft = { "markdown" },
     },
     {
