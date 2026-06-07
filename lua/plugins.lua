@@ -391,6 +391,18 @@ return {
         cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewRefresh" },
         dependencies = { "selimacerbas/live-server.nvim" },
         ft = { "markdown" },
+        config = function()
+            require("markdown_preview").setup({
+                open_browser = false,
+                default_theme = "dark",
+                debounce_ms = 300,
+                hooks = {
+                    on_start = function(url)
+                        vim.fn.system({ "open", url })
+                    end,
+                },
+            })
+        end,
     },
     {
         "vimwiki/vimwiki",
