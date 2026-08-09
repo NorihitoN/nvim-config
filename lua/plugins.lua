@@ -267,7 +267,7 @@ return {
                     -- "ts_ls",      -- TypeScript/JavaScript
                     "rust_analyzer", -- Rust
                     -- "clangd",        -- C/C++
-                    -- "metals",        -- Scala
+                    -- "metals",        -- Scala (coursier で管理)
                     -- "elixirls",      -- Elixir
                     -- "lua_ls",        -- Lua
                     -- "scheme_langserver", -- Scheme

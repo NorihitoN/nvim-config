@@ -66,4 +66,4 @@ vim.lsp.config("lua_ls", {
 
 -- mason-lspconfig の automatic_enable に任せず明示的に有効化
 -- (ensure_installed 以外のサーバーも含む)
-vim.lsp.enable({ "hls", "pyright", "rust_analyzer", "lua_ls" })
+vim.lsp.enable({ "hls", "pyright", "rust_analyzer", "lua_ls", "metals" })
